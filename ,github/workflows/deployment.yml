@@ -1,0 +1,9 @@
+name: Java deployemt workflow
+on: push
+job:
+  build-Project:
+     runs-on: ubuntu-latest
+     steps: 
+       name: Get Code
+       run: "echo get code"
+    

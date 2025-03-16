@@ -8,6 +8,7 @@ public class GithubActionsJavaCiCdApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GithubActionsJavaCiCdApplication.class, args);
+        System.out.println("testing");
     }
 
 }

@@ -4,7 +4,7 @@ on:
     branches:
         - main
 jobs:
-   test:
+   build-test:
      runs-on: ubuntu-latest
      steps:
       -  id: checkout-out
@@ -15,5 +15,7 @@ jobs:
          with: 
             distribution: 'oracle'   
             java-version: '21' 
+      -  name:  Build with Maven
+         run:   mvn clean install  
       -  name: Unit Testing
          run:  mvn clean test

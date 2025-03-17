@@ -4,15 +4,15 @@ jobs:
     define-output:
         runs-on: ubuntu-latest
         outputs:
-            output1: ${{ steps.output1.outputs.test1 }}
-            output2: ${{ steps.output2.outputs.test2 }}
+            output1: ${{ steps.step1.outputs.test }}
+            output2: ${{ steps.step2.outputs.test }}
         steps:
-         -  id: output1
+         -  id: step1
             name: test1 output
-            run : echo "test1=Hello" >> "$GITHUB_OUTPUT"
-         -  id: output2
+            run : echo "test=Hello" >> "$GITHUB_OUTPUT"
+         -  id: step2
             name: test2 output
-            run: echo "echo test2=World"   
+            run: echo "echo test=World" >> "$GITHUB_OUTPUT"
     print-outputs:
         runs-on: ubuntu-latest
         needs:   define-output

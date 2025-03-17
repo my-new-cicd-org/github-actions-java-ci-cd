@@ -25,11 +25,11 @@ jobs:
        - name: Publish
          id: publish
          run: find target/*.jar -type f -execdir echo 'jar-file={}' >> $GITHUB_OUTPUT ';'  
-      #  - name: Upload artifact
-      #    uses:  actions/upload-artifact@v4
-      #    with:
-      #      name:  Package
-      #      path: target/*.jar      
+       - name: Upload artifact
+         uses:  actions/upload-artifact@v4
+         with:
+           name:  Package
+           path: target/*.jar      
   deploy: 
     needs: build-test
     runs-on: ubuntu-latest

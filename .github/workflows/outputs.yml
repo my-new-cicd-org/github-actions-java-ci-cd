@@ -20,9 +20,8 @@ jobs:
           - env: 
              OUTPUT1: ${{ needs.define-output.outputs.output1 }}
              OUTPUT2: ${{ needs.define-output.outputs.output2 }}
-            run: |
-              echo "$OUTPUT1"
-              echo "$OUTPUT2"
+            run: echo "$OUTPUT1 $OUTPUT2"
+
               
 
 

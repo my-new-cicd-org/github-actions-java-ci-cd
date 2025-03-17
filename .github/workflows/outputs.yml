@@ -1,0 +1,21 @@
+name: Defining outputs for a job
+on: workflow_dispatch
+jobs: 
+   define-output:
+      runs-on: ubuntu-latest
+      outputs:
+        output1 : ${{ steps.step1.outputs.test1 }}
+      steps: 
+        - id: step1
+          name: Add Output
+          run: echo "test1=hello" >> "$GITHUB_OUTPUT"
+   get-output:
+        needs: define-output
+        runs-on: ubuntu-latest      
+        steps:
+         - env: 
+                OUTPUT1: ${{ needs.define-output.outputs.output1 }}
+           run: echo "$OUTPUT1"       
+             
+
+

@@ -1,0 +1,19 @@
+name: New Deployment Java Project
+on: 
+  push:
+    branches:
+        - main
+jobs:
+   test:
+     runs-on: ubuntu-latest
+     steps:
+      -  id: checkout-out
+         name: Checkout
+         uses: actions/checkout@v4
+      -  name: Set java env
+         uses: actions/setup-java@v4
+         with: 
+            distribution: 'oracle'   
+            java-version: '21' 
+      -  name: Unit Testing
+         run: mvn mvn clean test

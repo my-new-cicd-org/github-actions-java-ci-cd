@@ -16,4 +16,4 @@ jobs:
             distribution: 'oracle'   
             java-version: '21' 
       -  name: Unit Testing
-         run: mvn mvn clean test
+         run:  mvn clean test

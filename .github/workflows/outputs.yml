@@ -5,22 +5,25 @@ jobs:
         runs-on: ubuntu-latest
         outputs:
             output1: ${{ steps.step1.outputs.test }}
-            output2: ${{ steps.step2.outputs.test }}
+            output2: ${{ steps.step2.outputs.test  }}
         steps:
-         -  id: step1
-            name: test1 output
-            run : echo "test=Hello" >> "$GITHUB_OUTPUT"
-         -  id: step2
-            name: test2 output
-            run: echo "test=World" >> "$GITHUB_OUTPUT"
-    print-outputs:
+          - id: step1
+            name: step 1
+            run: echo "test=hello" >> "$GITHUB_OUTPUTS"
+          - id: step2
+            name: step 2
+            run:  echo "test=world" >> "$GITHUB_OUTPUTS" 
+    print-output:
         runs-on: ubuntu-latest
-        needs:   define-output
+        needs: define-output
         steps:
-          - env: 
-             OUTPUT1: ${{ needs.define-output.outputs.output1 }}
-             OUTPUT2: ${{ needs.define-output.outputs.output2 }}
-            run: echo "$OUTPUT1 $OUTPUT2"
+         - env:
+            OUTPUT1: ${{ needs.define-output.outputs.output1}}
+            OUTPUT2: ${{ needs.define-output.outputs.output2}}
+           run: |
+             echo $OUTPUT1
+             echo $OUTPUT2
+
 
               
 

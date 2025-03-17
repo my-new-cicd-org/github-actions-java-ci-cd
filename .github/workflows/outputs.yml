@@ -12,7 +12,7 @@ jobs:
             run : echo "test=Hello" >> "$GITHUB_OUTPUT"
          -  id: step2
             name: test2 output
-            run: echo "echo test=World" >> "$GITHUB_OUTPUT"
+            run: echo "test=World" >> "$GITHUB_OUTPUT"
     print-outputs:
         runs-on: ubuntu-latest
         needs:   define-output

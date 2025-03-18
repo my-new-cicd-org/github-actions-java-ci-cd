@@ -1,0 +1,51 @@
+name : Context testing
+on:
+  pull_request:
+    branches:
+        - master
+    types:
+        - opened
+        - edited
+           
+  workflow_dispatch:     
+  push:   
+    branches:
+        - master
+        - 'dev-*'
+        - 'feat/**'
+    paths:
+        - '**.js'
+
+jobs:
+    dump_contexts_to_log:
+        runs-on: ubuntu-latest
+        steps: 
+          - name:  Dump GitHub context
+            env:
+              GITHUB_CONTEXT: ${{  toJson(github) }}   
+            run: echo "$GITHUB_CONTEXT"  
+          - name: Dump Job context
+            env:
+              JOB_CONTEXT:  ${{  toJson(job) }}   
+            run:   echo "$JOB_CONTEXT"
+          - name: Dump Steps context
+            env:
+              STEPS_CONTEXT:  ${{  toJson(steps) }}   
+            run:   echo "$STEPS_CONTEXT"  
+          - name: Dump runner context
+            env:
+              RUNNER_CONTEXT:  ${{  toJson(runner) }}   
+            run:   echo "$RUNNER_CONTEXT" 
+        #   - name: Dump strategy context
+        #     env:
+        #       STRATEGY_CONTEXT:  ${{  toJson(strategy) }}   
+        #     run:   echo "$STRATEGY_CONTEXT"        
+        #   - name: Dump matrix context
+        #     env:
+        #       MATRIX_CONTEXT:  ${{  toJson(matrix) }}   
+        #     run:   echo "$MATRIX_CONTEXT" 
+    prod-check:
+        if: ${{ github.ref == 'refs/heads/main'}}  
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "Deploying to production server on branch $GITHUB_REF"                                          

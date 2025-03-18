@@ -23,6 +23,11 @@ jobs:
            run: |
              echo $OUTPUT1
              echo $OUTPUT2
+    context-data:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Output GitHub context
+              run: echo "${{ toJson(github) }}"         
 
 
               

@@ -1,6 +1,6 @@
 name: New Deployment Java Project
 on: 
-  push:
+ push:
     branches:
         - main
 jobs:

@@ -17,9 +17,11 @@ jobs:
             java-version: '21'  
       -  name: Unit Testing
          run:  mvn clean test
-   deploy:
+   build:
         needs: test
         runs-on: ubuntu-latest
+        outputs:
+          artifact-file: ${{ steps.publish.outputs.artifact}}
         steps: 
          -  id: checkout-out
             name: Checkout
@@ -30,6 +32,28 @@ jobs:
                distribution: 'oracle'   
                java-version: '21'    
          -  name:  Build with Maven
-            run:   mvn clean install   
-         -  name: Deploy
-            run: echo "Deploying..................."                   
+            run:   mvn clean install  
+         -  name: Publish
+            id: publish
+            run: find target/*.jar -type f -execdir echo 'artifact={}' >> $GITHUB_OUTPUT ';'     
+         -  name: Upload artifact
+            uses: actions/upload-artifact@v4
+            with:
+               path: target/*.jar
+               name: package          
+   deploye:
+      needs: build
+      runs-on: ubuntu-latest
+      steps: 
+       -  name: Get build artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: package
+       -  name: Get Content
+          run: ls
+       -  name: get artifact name
+          run : echo ${{ needs.build.outputs.artifact-file }}  
+       -  name: Deploy
+          run: echo "Deploying..................."       
+
+      

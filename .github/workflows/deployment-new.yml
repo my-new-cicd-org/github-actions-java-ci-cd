@@ -64,7 +64,7 @@ jobs:
       needs: build
       runs-on: ubuntu-latest
       env:
-        MYSQL_ROOT_PASSWORD: adminadmin 
+        MYSQL_ROOT_PASSWORD: adminadmin
       services:
         mysql:
           image: mysql
@@ -83,8 +83,7 @@ jobs:
            distribution: 'oracle'
            java-version: '21'
        -  name:  Run Spring Boot
-          run:  |
-            echo "MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD"
+          run:  java -jar ${{ needs.build.outputs.artifact-file }}
        -  name: get artifact name
           run : echo ${{ needs.build.outputs.artifact-file }}  
        -  name: Deploy

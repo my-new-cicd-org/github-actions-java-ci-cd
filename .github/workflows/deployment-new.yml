@@ -3,8 +3,11 @@ on:
  push:
     branches:
         - main
+env:
+  MYSQL_DB_NAME: testeb         
 jobs:
    test:
+     environment: testing 
      runs-on: ubuntu-latest
      services:
        mysql:
@@ -61,17 +64,18 @@ jobs:
                path: target/*.jar
                name: package          
    deploye:
+      environment: testing 
       needs: build
       runs-on: ubuntu-latest
       env:
-        MYSQL_ROOT_PASSWORD: adminadmin
+        MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
       services:
         mysql:
           image: mysql
           ports:
             - 3306:3306
           env:
-            MYSQL_ROOT_PASSWORD: adminadmin
+            MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_PASSWORD}}
       steps: 
        -  name: Get build artifact
           uses: actions/download-artifact@v4
@@ -83,10 +87,10 @@ jobs:
            distribution: 'oracle'
            java-version: '21'
        -  name:  Run Spring Boot
-          run:  java -jar ${{ needs.build.outputs.artifact-file }}
+          run:  echo "$MYSQL_ROOT_PASSWORD"
        -  name: get artifact name
           run : echo ${{ needs.build.outputs.artifact-file }}  
        -  name: Deploy
-          run: echo "Deploying..................."       
+          run: echo "Deploying...................${{ env.MYSQL_DB_NAME }}"       
 
       

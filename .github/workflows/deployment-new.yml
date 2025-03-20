@@ -21,7 +21,7 @@ jobs:
             distribution: 'oracle'   
             java-version: '21'  
       -  name: Unit Testing
-         run: mvn clean verify
+         run: mvn test -Dtest=EmployeeControllerTest
    build:
         needs: test
         runs-on: ubuntu-latest

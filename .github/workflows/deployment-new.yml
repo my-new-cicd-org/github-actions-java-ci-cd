@@ -19,9 +19,15 @@ jobs:
          uses: actions/setup-java@v4
          with: 
             distribution: 'oracle'   
-            java-version: '21'  
+            java-version: '21'
+      - name: Cache the Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
       -  name: Unit Testing
-         run: mvn test -Dtest=EmployeeControllerTest
+         run: mvn "-Dtest=EmployeeControllerTest" test
    build:
         needs: test
         runs-on: ubuntu-latest

@@ -21,7 +21,7 @@ jobs:
             distribution: 'oracle'   
             java-version: '21'  
       -  name: Unit Testing
-         run:  mvn clean test
+         run:  mvn clean verify -P all-tests
    build:
         needs: test
         runs-on: ubuntu-latest

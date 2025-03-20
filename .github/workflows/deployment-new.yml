@@ -32,7 +32,11 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       -  name: Unit Testing
+         id: testing-code
          run: mvn "-Dtest=EmployeeControllerTest" test
+      -  name: Upload test Report
+         if: failure() && steps.testing-code.outcome == 'failure'
+         run: echo "uploading test report when test was failed"   
    build:
         needs: test
         runs-on: ubuntu-latest

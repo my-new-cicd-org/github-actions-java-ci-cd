@@ -72,7 +72,7 @@ jobs:
            distribution: 'oracle'
            java-version: '21'
        -  name:  Run Spring Boot
-          run:  mvn spring-boot:run
+          run:  java -jar ${{ needs.build.outputs.artifact-file }}
        -  name: get artifact name
           run : echo ${{ needs.build.outputs.artifact-file }}  
        -  name: Deploy

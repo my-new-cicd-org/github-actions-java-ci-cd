@@ -63,6 +63,8 @@ jobs:
    deploye:
       needs: build
       runs-on: ubuntu-latest
+      env:
+        MYSQL_ROOT_PASSWORD: adminadmin 
       services:
         mysql:
           image: mysql

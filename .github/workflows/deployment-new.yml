@@ -61,6 +61,11 @@ jobs:
    deploye:
       needs: build
       runs-on: ubuntu-latest
+      services:
+        mysql:
+          image: mysql
+          env:
+            MYSQL_ROOT_PASSWORD: adminadmin
       steps: 
        -  name: Get build artifact
           uses: actions/download-artifact@v4

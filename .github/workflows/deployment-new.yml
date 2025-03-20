@@ -6,6 +6,11 @@ on:
 jobs:
    test:
      runs-on: ubuntu-latest
+     services:
+       mysql:
+         image: mysql
+         env:
+           MYSQL_ROOT_PASSWORD: adminadmin
      steps:
       -  id: checkout-out
          name: Checkout

@@ -66,8 +66,13 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: package
-       -  name: Get Content
-          run: ls
+       - name: Set java env
+         uses: actions/setup-java@v4
+         with:
+           distribution: 'oracle'
+           java-version: '21'
+       -  name:  Run Spring Boot
+          run:  mvn spring-boot:run
        -  name: get artifact name
           run : echo ${{ needs.build.outputs.artifact-file }}  
        -  name: Deploy

@@ -81,7 +81,8 @@ jobs:
            distribution: 'oracle'
            java-version: '21'
        -  name:  Run Spring Boot
-          run:  java -jar ${{ needs.build.outputs.artifact-file }}
+          run:  |
+            echo "MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD"
        -  name: get artifact name
           run : echo ${{ needs.build.outputs.artifact-file }}  
        -  name: Deploy

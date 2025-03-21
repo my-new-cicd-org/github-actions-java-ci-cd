@@ -12,6 +12,8 @@ jobs:
          uses: actions/checkout@v4
       -  name: Install java and cache dependencies
          uses: ./.github/workflows/actions/composite-action-cached-deps  
+         with:
+            caching: 'false'
       -  name: Unit Testing
          id: testing-code
          run: mvn  test

@@ -1,5 +1,10 @@
 name: 'Get & Cache Dependencies'
 description: 'Get Dependencies and cache them'
+inputs:
+    caching:
+        description: 'disable catch'
+        required: false
+        default: 'true'
 runs:
     using: 'composite'
     steps:
@@ -9,6 +14,7 @@ runs:
         distribution: 'oracle'   
         java-version: '21'
     - name: Cache the Maven packages
+      if: inputs.caching == 'true'
       id: cache  
       uses: actions/cache@v4
       with:
@@ -16,6 +22,6 @@ runs:
          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
          restore-keys: ${{ runner.os }}-m2
     - name: Install dependencys
-      if: steps.cache.outputs.cache-hit != 'true'
+      if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
       run: mvn dependency:resolve 
       shell: bash  

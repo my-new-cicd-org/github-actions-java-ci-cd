@@ -2,7 +2,7 @@ name: Java Springboot Project with strategy matrix
 on: 
  push:
     branches:
-        - main
+        - master
 jobs:     
    test: 
      runs-on: ubuntu-latest

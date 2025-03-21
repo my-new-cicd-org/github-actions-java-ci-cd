@@ -1,4 +1,4 @@
-name: Java Springboot Project with test cases
+name: Java Springboot Project with Reuseable
 on: 
  push:
     branches:

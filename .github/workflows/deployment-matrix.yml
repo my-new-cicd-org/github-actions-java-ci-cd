@@ -40,6 +40,14 @@ jobs:
          matrix:
             java-version: [17,21]
             oprating-system: [ubuntu-latest,windows-latest]
+            include:
+               - java-version: 11
+                 oprating-system: ubuntu-latest
+            exclude:
+               - java-version: 17
+               - oprating-system: windows-latest
+
+
         needs: test
         runs-on: ${{ matrix.oprating-system}}
         outputs:

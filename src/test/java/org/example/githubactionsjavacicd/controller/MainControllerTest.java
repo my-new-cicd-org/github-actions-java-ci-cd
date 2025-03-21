@@ -25,7 +25,7 @@ public class MainControllerTest {
     public void getHello() throws Exception {
 
         ResponseEntity<String> response = restTemplate.getForEntity(new URL("http://localhost:" + port + "/").toString(), String.class);
-        assertEquals("Hello Controller123", response.getBody());
+        assertEquals("Hello Controller", response.getBody());
 
     }
 }

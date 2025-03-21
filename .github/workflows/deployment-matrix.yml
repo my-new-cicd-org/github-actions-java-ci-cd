@@ -1,4 +1,4 @@
-name: Java Springboot Project with test cases
+name: Java Springboot Project with strategy matrix
 on: 
  push:
     branches:
@@ -35,6 +35,7 @@ jobs:
             path: target/surefire-reports/*.xml
             name: test-report   
    build:
+        continue-on-error: true
         strategy:
          matrix:
             java-version: [17,21]

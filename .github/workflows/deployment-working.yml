@@ -2,7 +2,7 @@ name: Java Springboot Project with test cases
 on: 
  push:
     branches:
-        - master
+        - main
 jobs:     
    test: 
      runs-on: ubuntu-latest

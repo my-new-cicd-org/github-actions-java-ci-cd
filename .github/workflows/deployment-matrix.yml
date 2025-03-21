@@ -1,8 +1,8 @@
-name: Java Springboot Project Continue On error
+name: Java Springboot Project with test cases
 on: 
  push:
     branches:
-        - master
+        - main
 jobs:     
    test: 
      runs-on: ubuntu-latest
@@ -27,16 +27,20 @@ jobs:
          run: mvn dependency:resolve         
       -  name: Unit Testing
          id: testing-code
-         continue-on-error: true
          run: mvn  test
       -  name: Upload test Report
+         if: failure() && steps.testing-code.outcome == 'failure'
          uses: actions/upload-artifact@v4
          with:
             path: target/surefire-reports/*.xml
             name: test-report   
    build:
+        strategy:
+         matrix:
+            java-version: [17,21]
+            oprating-system: [ubuntu-latest,windows-latest]
         needs: test
-        runs-on: ubuntu-latest
+        runs-on: ${{ matrix.oprating-system}}
         outputs:
           artifact-file: ${{ steps.publish.outputs.artifact}}
         steps: 
@@ -47,7 +51,7 @@ jobs:
             uses: actions/setup-java@v4
             with: 
                distribution: 'oracle'   
-               java-version: '21'    
+               java-version: ${{ matrix.java-version }}  
          -  name: Cache the Maven packages
             id: cache  
             uses: actions/cache@v4

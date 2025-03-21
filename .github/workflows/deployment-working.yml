@@ -99,6 +99,9 @@ jobs:
          run: |
             echo "Something went wrong"
             echo "${{ toJson(github) }}"
+   reuseable:
+      needs: build
+      uses: ./.github/workflows/reuseable.yml        
      
 
 

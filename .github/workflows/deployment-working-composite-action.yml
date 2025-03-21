@@ -11,9 +11,12 @@ jobs:
          name: Checkout
          uses: actions/checkout@v4
       -  name: Install java and cache dependencies
+         id: cache-deps
          uses: ./.github/workflows/actions/composite-action-cached-deps  
          with:
             caching: 'false'
+      -  name:   Output Information
+         run: echo  "cache used ${{ steps.cache-deps.outputs.used-cache }}"    
       -  name: Unit Testing
          id: testing-code
          run: mvn  test

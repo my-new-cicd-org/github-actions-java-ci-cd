@@ -5,6 +5,10 @@ inputs:
         description: 'disable catch'
         required: false
         default: 'true'
+outputs:
+    used-cache:
+        description: 'cache was used'  
+        value: ${{ steps.install.outputs.cache  }}      
 runs:
     using: 'composite'
     steps:
@@ -22,6 +26,9 @@ runs:
          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
          restore-keys: ${{ runner.os }}-m2
     - name: Install dependencys
+      id: install
       if: steps.cache.outputs.cache-hit != 'true' || inputs.caching != 'true'
-      run: mvn dependency:resolve 
+      run: |
+        mvn dependency:resolve 
+        echo "cache='${{ inputs.caching }}' >> $GITHUB_OUTPUT"
       shell: bash  

@@ -3,27 +3,8 @@ on:
  push:
     branches:
         - main
-jobs:
-   install-dependencys:
-      runs-on: ubuntu-latest
-      steps:
-         -  id: checkout-out
-            name: Checkout
-            uses: actions/checkout@v4
-         -  name: Set java env
-            uses: actions/setup-java@v4
-            with: 
-               distribution: 'oracle'   
-               java-version: '21'
-         - name: Cache the Maven packages
-           uses: actions/cache@v4
-           with:
-             path: ~/.m2
-             key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-             restore-keys: ${{ runner.os }}-m2
-         - name: Install   dependencys
-           run: mvn dependency:resolve         
-   test:
+jobs:     
+   test: 
      runs-on: ubuntu-latest
      steps:
       -  id: checkout-out
@@ -35,11 +16,15 @@ jobs:
             distribution: 'oracle'   
             java-version: '21'
       - name: Cache the Maven packages
+        id: cache  
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+      -  name: Install dependencys
+         if: steps.cache.outputs.cache-hit != 'true'
+         run: mvn dependency:resolve         
       -  name: Unit Testing
          id: testing-code
          run: mvn  test
@@ -64,11 +49,15 @@ jobs:
                distribution: 'oracle'   
                java-version: '21'    
          -  name: Cache the Maven packages
+            id: cache  
             uses: actions/cache@v4
             with: 
                path: ~/.m2
                key:  ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}      
                restore-keys: ${{ runner.os }}-m2  
+         -  name: Install dependencys
+            if: steps.cache.outputs.cache-hit != 'true'
+            run: mvn dependency:resolve          
          -  name:  Build with Maven
             run:   mvn clean install  
          -  name: Publish

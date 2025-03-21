@@ -1,4 +1,4 @@
-name: New Deployment Java Project
+name: Java Springboot Project with test cases
 on: 
  push:
     branches:
@@ -28,7 +28,7 @@ jobs:
          if: failure() && steps.testing-code.outcome == 'failure'
          uses: actions/upload-artifact@v4
          with:
-            path: target/*.xml
+            path: target/surefire-reports/*.xml
             name: test-report   
    build:
         needs: test

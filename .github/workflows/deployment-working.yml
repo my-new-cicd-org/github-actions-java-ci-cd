@@ -89,9 +89,7 @@ jobs:
        -  name: get artifact name
           run : echo ${{ needs.build.outputs.artifact-file }}  
        -  name: Deploy
-          run: echo "Deploying...."   
-       -  name: Call reuseable 
-          uses: ./.github/workflows/reuseable.yml      
+          run: echo "Deploying...."      
    report:
       if: failure()
       needs: [test,deploye,build]
@@ -101,6 +99,9 @@ jobs:
          run: |
             echo "Something went wrong"
             echo "${{ toJson(github) }}"
+   reuable-workflow:
+      needs: build   
+      uses: ./.gihub/workflows/reuseable.yml       
 
 
       

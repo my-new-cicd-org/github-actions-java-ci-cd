@@ -4,6 +4,25 @@ on:
     branches:
         - main
 jobs:
+   install-dependencys:
+      runs-on: ubuntu-latest
+      steps:
+         -  id: checkout-out
+            name: Checkout
+            uses: actions/checkout@v4
+         -  name: Set java env
+            uses: actions/setup-java@v4
+            with: 
+               distribution: 'oracle'   
+               java-version: '21'
+         - name: Cache the Maven packages
+           uses: actions/cache@v4
+           with:
+             path: ~/.m2
+             key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+             restore-keys: ${{ runner.os }}-m2
+         - name: Install   dependencys
+           run: mvn dependency:resolve         
    test:
      runs-on: ubuntu-latest
      steps:

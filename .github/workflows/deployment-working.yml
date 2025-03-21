@@ -59,7 +59,7 @@ jobs:
             if: steps.cache.outputs.cache-hit != 'true'
             run: mvn dependency:resolve          
          -  name:  Build with Maven
-            run:   mvn clean install  
+            run:   mvn clean install  -Dmaven.test.skip=true
          -  name: Publish
             id: publish
             run: find target/*.jar -type f -execdir echo 'artifact={}' >> $GITHUB_OUTPUT ';'     

@@ -102,9 +102,16 @@ jobs:
             echo "${{ toJson(github) }}"
    reuseable:
       needs: build
-      uses: ./.github/workflows/reuseable.yml        
+      uses: ./.github/workflows/reuseable.yml      
       with:
          artifact-name: package
+   reuseable-output-result:
+      needs: reuseable
+      runs-on:  ubuntu-latest
+      steps:
+         - name: Print  reuseable job output
+           run: echo "${{ needs.reuseable.outputs.results }}"    
+
      
 
 

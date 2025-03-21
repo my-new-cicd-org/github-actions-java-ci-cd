@@ -6,9 +6,15 @@ on:
                 description: The name Artifact
                 required: false
                 default: package
-                type: string
+                type: string  
+        outputs:
+            results:
+                description: The name Artifact
+                value:  ${{ jobs.call-reuseale-workflow.outputs.outcome }}       
 jobs:
    call-reuseale-workflow:
+      outputs:
+        outcome: ${{ steps.result-id.outputs.step-result }}
       runs-on: ubuntu-latest
       steps:
         - name: Get Artifact
@@ -19,3 +25,6 @@ jobs:
           run: ls    
         - name: After deploye
           run: echo "calling Reuseable Workflow"
+        - name: Set result output
+          id: result-id
+          run: echo "step-result=sucess" >> $GITHUB_OUTPUT

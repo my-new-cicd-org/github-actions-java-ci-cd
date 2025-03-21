@@ -1,8 +1,8 @@
-name: Java Springboot Project with Reuseable
+name: Java Springboot Project with Composite Action
 on: 
  push:
     branches:
-        - master
+        - main
 jobs:     
    test: 
      runs-on: ubuntu-latest
@@ -10,21 +10,8 @@ jobs:
       -  id: checkout-out
          name: Checkout
          uses: actions/checkout@v4
-      -  name: Set java env
-         uses: actions/setup-java@v4
-         with: 
-            distribution: 'oracle'   
-            java-version: '21'
-      - name: Cache the Maven packages
-        id: cache  
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      -  name: Install dependencys
-         if: steps.cache.outputs.cache-hit != 'true'
-         run: mvn dependency:resolve         
+      -  name: Install java and cache dependencies
+         uses: ./.github/workflows/actions/composite-action-cached-deps  
       -  name: Unit Testing
          id: testing-code
          run: mvn  test
@@ -43,21 +30,8 @@ jobs:
          -  id: checkout-out
             name: Checkout
             uses: actions/checkout@v4
-         -  name: Set java env
-            uses: actions/setup-java@v4
-            with: 
-               distribution: 'oracle'   
-               java-version: '21'    
-         -  name: Cache the Maven packages
-            id: cache  
-            uses: actions/cache@v4
-            with: 
-               path: ~/.m2
-               key:  ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}      
-               restore-keys: ${{ runner.os }}-m2  
-         -  name: Install dependencys
-            if: steps.cache.outputs.cache-hit != 'true'
-            run: mvn dependency:resolve          
+         -  name: Install java and cache dependencies
+            uses: ./.github/workflows/actions/composite-action-cached-deps         
          -  name:  Build with Maven
             run:   mvn clean install  -Dmaven.test.skip=true
          -  name: Publish
@@ -79,11 +53,8 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             name: package
-       - name: Set java env
-         uses: actions/setup-java@v4
-         with:
-           distribution: 'oracle'
-           java-version: '21'
+       -  name: Install java and cache dependencies
+          uses: ./.github/workflows/actions/composite-action-cached-deps  
        -  name:  Run Spring Boot
           run:  echo "$MYSQL_ROOT_PASSWORD"
        -  name: get artifact name

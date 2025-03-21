@@ -1,0 +1,21 @@
+name: 'Get & Cache Dependencies'
+description: 'Get Dependencies and cache them'
+runs:
+    using: 'composite'
+    steps:
+        -  name: Set java env
+        uses: actions/setup-java@v4
+        with: 
+           distribution: 'oracle'   
+           java-version: '21'
+     - name: Cache the Maven packages
+       id: cache  
+       uses: actions/cache@v4
+       with:
+         path: ~/.m2
+         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+         restore-keys: ${{ runner.os }}-m2
+     -  name: Install dependencys
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: mvn dependency:resolve 
+        shell: bash  

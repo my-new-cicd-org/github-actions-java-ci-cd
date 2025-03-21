@@ -1,8 +1,8 @@
-name: Java Springboot Project with test cases
+name: Java Springboot Project Continue On error
 on: 
  push:
     branches:
-        - master
+        - main
 jobs:     
    test: 
      runs-on: ubuntu-latest
@@ -27,9 +27,9 @@ jobs:
          run: mvn dependency:resolve         
       -  name: Unit Testing
          id: testing-code
+         continue-on-error: true
          run: mvn  test
       -  name: Upload test Report
-         if: failure() && steps.testing-code.outcome == 'failure'
          uses: actions/upload-artifact@v4
          with:
             path: target/surefire-reports/*.xml
